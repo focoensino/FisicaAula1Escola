@@ -1,60 +1,60 @@
-const Engine = Matter.Engine
-const World = Matter.World
-const Bodies = Matter.Bodies
-const Body = Matter.Body
 
-var engine,world,ball,ground,rock,wall
+const Engine = Matter.Engine;
+const World = Matter.World;
+const Bodies = Matter.Bodies;
+const Body = Matter.Body;
+
+var terra,fisica
+
+var ball,ground,right,left,topo;
+var bnt1
 
 
 function setup() {
-  createCanvas(400,400)
-  rectMode(CENTER)
-   ellipseMode(RADIUS)
-  
-  engine = Engine.create()
-  world = engine.world
+createCanvas(500,500)
+fisica = Engine.create()
+terra = fisica.world;
+ellipseMode(RADIUS)
+rectMode(CENTER)
 
+bnt1 = createImg('up.png')
+bnt1.position(220,30)
+bnt1.size(50,50)
+bnt1.mouseClicked(vForce)
 
-
-var rockOptions = {
-  restitution:0.85
-}
-rock = Bodies.circle(300,20,10,rockOptions)
-World.add(world,rock)
-
-   var ballOptions = {
+var ballOptions={
     restitution:0.95,
     frictionAir:0.01
-   }
+}
 
-   var groundOptions = {
-    isStatic:true
-   }
-   ball =Bodies.circle(100,10,20,ballOptions)
-   World.add(world,ball)
-   console.log(ball)
+ball = Bodies.circle(200,100,20,ballOptions)
+World.add(terra,ball)
 
-   wall = Bodies.rectangle(300,200,200,20,groundOptions)
-   World.add(world,wall)
-  
-
-ground = Bodies.rectangle(200,390,400,20,groundOptions)
-World.add(world,ground)
-
-
-
+ground =new Ground(250,490,500,20)
+right = new Ground(10,250,20,500)
+left = new Ground(490,250,20,500)
+topo = new Ground(250,10,500,20)
 
 }
+
 
 function draw() 
 {
- background(0)
- Engine.update(engine)
+background(0)
+Engine.update(fisica)
+fill(255)
+ellipse(ball.position.x,ball.position.y,20)
+ground.show()
+right.show()
+left.show()
+topo.show()
 
- ellipse(ball.position.x, ball.position.y,20)
- rect(ground.position.x,ground.position.y,400,20)
-  
- ellipse(rock.position.x,rock.position.y,20)
- rect(wall.position.x,wall.position.y,200,10)
+}
+
+function vForce(){
+
+    Matter.Body.applyForce(ball,{x:0,y:0},{x:0,y:-0.05})
+    
+    
 }
 
